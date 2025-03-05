@@ -26,12 +26,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const DoctorSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     specialty: { type: String, required: true },
     location: {
         city: { type: String, required: true },
         state: { type: String, required: true },
     },
     experience: { type: Number, required: true },
-    availabilitySlots: { type: [String], required: true }, // Array of ISO date strings
+    availabilitySlots: { type: [String], required: true },
 });
 exports.default = mongoose_1.default.model('Doctor', DoctorSchema);

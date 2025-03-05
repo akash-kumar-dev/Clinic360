@@ -1,17 +1,17 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-export interface IUser extends Document {
+export interface IPatient extends Document {
   name: string;
   email: string;
   password: string;
-  role: 'doctor' | 'patient';
+  role: 'patient';
 }
 
-const UserSchema: Schema = new Schema({
+const PatientSchema: Schema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ['doctor', 'patient'], required: true },
+  role: { type: String, enum: ['patient'], required: true },
 });
 
-export default mongoose.model<IUser>('User', UserSchema);
+export default mongoose.model<IPatient>('Patient', PatientSchema); 

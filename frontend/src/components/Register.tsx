@@ -36,98 +36,122 @@ const Register: React.FC = () => {
 
       const data = await response.json();
       console.log('Registration successful:', data);
-      // Handle successful registration (e.g., redirect to login)
     } catch (error) {
       console.error('Error registering:', error);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold mb-4">Register</h1>
-      <form onSubmit={handleRegister} className="flex flex-col space-y-4">
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="border border-gray-300 p-2 rounded"
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="border border-gray-300 p-2 rounded"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="border border-gray-300 p-2 rounded"
-          required
-        />
-        <select
-          value={role}
-          onChange={(e) => {
-            setRole(e.target.value as 'doctor' | 'patient');
-            if (e.target.value === 'patient') {
-              setSpecialty('');
-              setLocation({ city: '', state: '' });
-              setExperience(0);
-            }
-          }}
-          className="border border-gray-300 p-2 rounded"
-        >
-          <option value="patient">Patient</option>
-          <option value="doctor">Doctor</option>
-        </select>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+        <h1 className="text-3xl font-bold mb-6 text-center">Register</h1>
+        <form onSubmit={handleRegister} className="flex flex-col space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Name</label>
+            <input
+              type="text"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="border border-gray-300 p-2 rounded-lg w-full"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="border border-gray-300 p-2 rounded-lg w-full"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="border border-gray-300 p-2 rounded-lg w-full"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Role</label>
+            <select
+              value={role}
+              onChange={(e) => {
+                setRole(e.target.value as 'doctor' | 'patient');
+                if (e.target.value === 'patient') {
+                  setSpecialty('');
+                  setLocation({ city: '', state: '' });
+                  setExperience(0);
+                }
+              }}
+              className="border border-gray-300 p-2 rounded-lg w-full"
+            >
+              <option value="patient">Patient</option>
+              <option value="doctor">Doctor</option>
+            </select>
+          </div>
 
-        {/* Doctor-specific fields */}
-        {role === 'doctor' && (
-          <>
-            <input
-              type="text"
-              placeholder="Specialty"
-              value={specialty}
-              onChange={(e) => setSpecialty(e.target.value)}
-              className="border border-gray-300 p-2 rounded"
-              required
-            />
-            <input
-              type="text"
-              placeholder="City"
-              value={location.city}
-              onChange={(e) => setLocation({ ...location, city: e.target.value })}
-              className="border border-gray-300 p-2 rounded"
-              required
-            />
-            <input
-              type="text"
-              placeholder="State"
-              value={location.state}
-              onChange={(e) => setLocation({ ...location, state: e.target.value })}
-              className="border border-gray-300 p-2 rounded"
-              required
-            />
-            <input
-              type="number"
-              placeholder="Experience (in years)"
-              value={experience}
-              onChange={(e) => setExperience(Number(e.target.value))}
-              className="border border-gray-300 p-2 rounded"
-              required
-            />
-          </>
-        )}
+          {role === 'doctor' && (
+            <>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Specialty</label>
+                <input
+                  type="text"
+                  placeholder="Enter your specialty"
+                  value={specialty}
+                  onChange={(e) => setSpecialty(e.target.value)}
+                  className="border border-gray-300 p-2 rounded-lg w-full"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">City</label>
+                <input
+                  type="text"
+                  placeholder="Enter your city"
+                  value={location.city}
+                  onChange={(e) => setLocation({ ...location, city: e.target.value })}
+                  className="border border-gray-300 p-2 rounded-lg w-full"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">State</label>
+                <input
+                  type="text"
+                  placeholder="Enter your state"
+                  value={location.state}
+                  onChange={(e) => setLocation({ ...location, state: e.target.value })}
+                  className="border border-gray-300 p-2 rounded-lg w-full"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Experience (in years)</label>
+                <input
+                  type="number"
+                  placeholder="Enter your experience"
+                  value={experience}
+                  onChange={(e) => setExperience(Number(e.target.value))}
+                  className="border border-gray-300 p-2 rounded-lg w-full"
+                  required
+                />
+              </div>
+            </>
+          )}
 
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-          Register
-        </button>
-      </form>
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+            Register
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
