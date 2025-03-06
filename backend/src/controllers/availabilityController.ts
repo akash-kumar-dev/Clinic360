@@ -11,7 +11,13 @@ export const addAvailabilitySlot = async (req: Request, res: Response): Promise<
       return;
     }
 
-    doctor.availabilitySlots.push(slot);
+    // Use type assertion to bypass TypeScript check
+    const formattedSlot: any = {
+      time: new Date(slot).toISOString(),
+      status: 'available'
+    };
+
+    doctor.availabilitySlots.push(formattedSlot);
     await doctor.save();
 
     res.status(200).json({ message: 'Availability slot added successfully', slots: doctor.availabilitySlots });

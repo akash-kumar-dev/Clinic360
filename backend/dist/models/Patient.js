@@ -29,5 +29,11 @@ const PatientSchema = new mongoose_1.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['patient'], required: true },
+    appointments: [{
+            doctorId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Doctor', required: true },
+            doctorName: { type: String, required: true },
+            date: { type: Date, required: true },
+            status: { type: String, enum: ['scheduled', 'cancelled'], default: 'scheduled' }
+        }]
 });
 exports.default = mongoose_1.default.model('Patient', PatientSchema);

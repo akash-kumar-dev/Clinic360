@@ -34,6 +34,14 @@ const DoctorSchema = new mongoose_1.Schema({
         state: { type: String, required: true },
     },
     experience: { type: Number, required: true },
-    availabilitySlots: { type: [String], required: true },
+    availabilitySlots: [{
+            time: { type: Date, required: true }, // Changed to Date type
+            status: {
+                type: String,
+                enum: ['available', 'booked'],
+                default: 'available'
+            }
+        }],
+    bookedSlots: [{ type: Date }] // Changed to Date type
 });
 exports.default = mongoose_1.default.model('Doctor', DoctorSchema);

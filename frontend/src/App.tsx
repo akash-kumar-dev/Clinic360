@@ -8,6 +8,7 @@ import PatientProfile from './components/PatientProfile';
 import Landing from './components/Landing';
 import EditDoctorProfile from './components/EditDoctorProfile';
 import SetAvailability from './components/SetAvailability';
+import BookAppointment from './components/BookAppointment';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/patient/:id" element={<PatientProfile />} />
         <Route path="/doctor/edit/:id" element={<EditDoctorProfile />} />
         <Route path="/doctor/availability/:id" element={<SetAvailability />} />
+        <Route path="/book-appointment/:doctorId" element={<BookAppointment />} />
       </Routes>
     </Router>
   );

@@ -1,5 +1,10 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
+export interface ISlot {
+  time: Date;  // Changed to Date type
+  status: 'available' | 'booked';
+}
+
 export interface IDoctor extends Document {
   name: string;
   email: string;
@@ -9,8 +14,9 @@ export interface IDoctor extends Document {
     city: string;
     state: string;
   };
-  experience: number; // in years
-  availabilitySlots: string[]; // e.g., ["2023-03-01T10:00:00Z", "2023-03-01T11:00:00Z"]
+  experience: number;
+  availabilitySlots: ISlot[];
+  bookedSlots: Date[];  // Changed to Date type
 }
 
 const DoctorSchema: Schema = new Schema({
@@ -23,7 +29,15 @@ const DoctorSchema: Schema = new Schema({
     state: { type: String, required: true },
   },
   experience: { type: Number, required: true },
-  availabilitySlots: { type: [String], required: true },
+  availabilitySlots: [{
+    time: { type: Date, required: true },  // Changed to Date type
+    status: {
+      type: String,
+      enum: ['available', 'booked'],
+      default: 'available'
+    }
+  }],
+  bookedSlots: [{ type: Date }]  // Changed to Date type
 });
 
-export default mongoose.model<IDoctor>('Doctor', DoctorSchema); 
+export default mongoose.model<IDoctor>('Doctor', DoctorSchema);

@@ -171,11 +171,22 @@ const Register: React.FC = () => {
                 />
               </div>
             </>
-          )}
+                  )}
 
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
-            Register
-          </button>
+                  <button 
+                    type="submit" 
+                    disabled={loading}
+                    className={`bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  >
+                    {loading ? (
+                      <div className="flex items-center justify-center">
+                        <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full mr-2"></div>
+                        Registering...
+                      </div>
+                    ) : (
+                      'Register'
+                    )}
+                  </button>
         </form>
       </div>
     </div>

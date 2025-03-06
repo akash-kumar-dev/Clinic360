@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes';
 import doctorRoutes from './routes/doctorRoutes';
+import appointmentRoutes from './routes/appointmentRoutes';
 
 dotenv.config();
 
@@ -23,3 +24,4 @@ app.listen(PORT, () => {
 
 app.use('/api/users', userRoutes);
 app.use('/api/doctors', doctorRoutes);
+app.use('/api/appointments', appointmentRoutes);
