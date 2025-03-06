@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser, loginUser, setAvailabilitySlots, getDoctorProfile, getPatientProfile, getAllDoctors } from '../controllers/userController';
+import { registerUser, loginUser, setAvailabilitySlots, getDoctorProfile, getPatientProfile, getAllDoctors, updateDoctorProfile } from '../controllers/userController';
 
 const router = express.Router();
 
@@ -14,5 +14,6 @@ router.post('/login/doctor', loginUser);
 router.get('/doctor/:id', getDoctorProfile);
 router.get('/doctors', getAllDoctors);
 router.post('/doctors/:id/availability', setAvailabilitySlots);
+router.post('/doctor/update/:id', updateDoctorProfile);
 
 export default router;

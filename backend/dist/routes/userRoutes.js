@@ -16,4 +16,5 @@ router.post('/login/doctor', userController_1.loginUser);
 router.get('/doctor/:id', userController_1.getDoctorProfile);
 router.get('/doctors', userController_1.getAllDoctors);
 router.post('/doctors/:id/availability', userController_1.setAvailabilitySlots);
+router.post('/doctor/update/:id', userController_1.updateDoctorProfile);
 exports.default = router;

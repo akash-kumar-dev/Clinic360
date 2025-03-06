@@ -127,3 +127,42 @@ export const getAllDoctors = async (req: Request, res: Response): Promise<void> 
     res.status(500).json({ message: 'Error fetching doctors', error });
   }
 };
+
+export const updateDoctorProfile = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+  const token = req.headers.authorization?.split(' ')[1];
+  const updates = req.body as any;
+
+  try {
+    if (!token) {
+      res.status(401).json({ message: 'No token provided' });
+      return;
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as any;
+    const requestUserId = decoded.id;
+
+    const doctor = await Doctor.findById(id) as any;
+    if (!doctor) {
+      res.status(404).json({ message: 'Doctor not found' });
+      return;
+    }
+
+    if (doctor._id.toString() !== requestUserId) {
+      res.status(403).json({ message: 'Not authorized to update this profile' });
+      return;
+    }
+
+    const allowedUpdates = ['name', 'specialty', 'experience', 'location'];
+    Object.keys(updates).forEach((update) => {
+      if (allowedUpdates.includes(update)) {
+        doctor[update] = updates[update];
+      }
+    });
+
+    await doctor.save();
+    res.status(200).json(doctor);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating doctor profile', error });
+  }
+};

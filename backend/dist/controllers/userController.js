@@ -23,7 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllDoctors = exports.getPatientProfile = exports.getDoctorProfile = exports.setAvailabilitySlots = exports.loginUser = exports.registerUser = void 0;
+exports.updateDoctorProfile = exports.getAllDoctors = exports.getPatientProfile = exports.getDoctorProfile = exports.setAvailabilitySlots = exports.loginUser = exports.registerUser = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const Doctor_1 = __importDefault(require("../models/Doctor"));
@@ -105,7 +105,6 @@ const getDoctorProfile = (req, res) => __awaiter(void 0, void 0, void 0, functio
             return;
         }
         // Exclude the password from the response
-        console.log('Doctor:', doctor);
         const _a = doctor.toObject(), { password } = _a, doctorProfile = __rest(_a, ["password"]);
         res.status(200).json(doctorProfile);
     }
@@ -146,3 +145,38 @@ const getAllDoctors = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getAllDoctors = getAllDoctors;
+const updateDoctorProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const { id } = req.params;
+    const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(' ')[1];
+    const updates = req.body;
+    try {
+        if (!token) {
+            res.status(401).json({ message: 'No token provided' });
+            return;
+        }
+        const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+        const requestUserId = decoded.id;
+        const doctor = yield Doctor_1.default.findById(id);
+        if (!doctor) {
+            res.status(404).json({ message: 'Doctor not found' });
+            return;
+        }
+        if (doctor._id.toString() !== requestUserId) {
+            res.status(403).json({ message: 'Not authorized to update this profile' });
+            return;
+        }
+        const allowedUpdates = ['name', 'specialty', 'experience', 'location'];
+        Object.keys(updates).forEach((update) => {
+            if (allowedUpdates.includes(update)) {
+                doctor[update] = updates[update];
+            }
+        });
+        yield doctor.save();
+        res.status(200).json(doctor);
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Error updating doctor profile', error });
+    }
+});
+exports.updateDoctorProfile = updateDoctorProfile;

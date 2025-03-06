@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes';
+import doctorRoutes from './routes/doctorRoutes';
 
 dotenv.config();
 
@@ -21,3 +22,4 @@ app.listen(PORT, () => {
 });
 
 app.use('/api/users', userRoutes);
+app.use('/api/doctors', doctorRoutes);

@@ -36,6 +36,14 @@ const DoctorsList: React.FC = () => {
             <p>Specialty: {doctor._doc.specialty || 'Not specified'}</p>
             <p>Experience: {doctor._doc.experience || 0} years</p>
             <p>Location: {doctor._doc.location?.city || 'N/A'}, {doctor._doc.location?.state || 'N/A'}</p>
+            <div className="mt-2">
+              <p className="font-semibold">Next Available Slots:</p>
+              {doctor._doc.availabilitySlots?.slice(0, 3).map((slot: string, index: number) => (
+                <p key={index} className="text-sm text-gray-600">
+                  {new Date(slot).toLocaleString()}
+                </p>
+              ))}
+            </div>
           </div>
         ))
       ) : (
